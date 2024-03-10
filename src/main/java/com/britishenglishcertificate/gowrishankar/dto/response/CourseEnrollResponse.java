@@ -9,14 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueryDataResponse {
-    private String course_name;
-
+public class CourseEnrollResponse {
+    private Long id;
+    private String course;
     private String email;
+    private double amount;
 
-    private String enquiry_type;
-
-    private String message;
-    
-    private String reply;
+    // Constructors, getters, and setters
+    // ...
 }

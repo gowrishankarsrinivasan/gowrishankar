@@ -4,10 +4,12 @@ import static com.britishenglishcertificate.gowrishankar.utils.MyConstant.AUTH;
 
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,4 +41,18 @@ public class QueryDataController {
         return service.getQueryDatas();
     }
 
+    @PutMapping("/querydata/{email}")
+    public String updateQueryDataByEmail(@PathVariable String email, @RequestBody QueryDataRequest requestData) {
+        return service.updateByEmail(email, requestData);
+    }
+
+    @GetMapping("/querydata/email/{email}") // New endpoint to get data by email
+    public ResponseEntity<?> getQueryDataByEmail(@PathVariable String email) {
+        List<QueryDataResponse> queryDataResponses = service.getQueryDatasByEmail(email);
+        if (!queryDataResponses.isEmpty()) {
+            return ResponseEntity.ok(queryDataResponses);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

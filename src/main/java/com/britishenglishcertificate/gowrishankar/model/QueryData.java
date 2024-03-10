@@ -12,8 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-
 @Data
 @Builder
 @Entity
@@ -38,4 +36,7 @@ public class QueryData {
 
     @Column
     private String message;
+
+    @Column(nullable = true)
+    private String reply;
 }

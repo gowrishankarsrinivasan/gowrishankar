@@ -1,6 +1,5 @@
 package com.britishenglishcertificate.gowrishankar.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,21 +18,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentModel {
+public class Payment {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    @Column
-    private String name;
-    @Column
-    private String cardnumber;
-    @Column
-    private String date;
-    @Column
-    private String emailaddress;
-    @Column
-    private String ccvcode;
-    @Column
-    private String expirydate;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String cardHolderName;
+    private String cardNumber;
+    private String expiryDate;
+    private String cvv;
 
+    // Getters and setters
+    // You can generate them using your IDE or write manually
 }

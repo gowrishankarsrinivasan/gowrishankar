@@ -1,6 +1,5 @@
 package com.britishenglishcertificate.gowrishankar.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,18 +18,19 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+public class CourseEnrolled {
 
-public class CourseData {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column
-    private String id;
-    @Column
-    private String course_name;
-    @Column
-    private String course_hour;
-    @Column
-    private String course_mode;
-    @Column
-    private String course_fees;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String course;
+    private String email;
+    private double amount;
+
+    public CourseEnrolled(String course, String email, double amount) {
+        this.course = course;
+        this.email = email;
+        this.amount = amount;
+    }
 }

@@ -35,24 +35,46 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public String updateProfile(String id, ProfileRequestDTO request) {
-        Optional<Profile> existingProfile = repo.findById(id);
-        if (existingProfile.isPresent()) {
-            Profile profileData = existingProfile.get();
-            profileData.setFirst_name(request.getFirstName());
-            profileData.setLast_name(request.getLastName());
-            profileData.setEmail(request.getEmail());
-
-            repo.save(profileData);
-            return "Updated profile"; // Changed to "Updated profile" for consistency
+    public ProfileResponseDto updateProfile(String id, ProfileRequestDTO request) {
+        Optional<Profile> optionalProfile = repo.findById(id);
+        if (optionalProfile.isPresent()) {
+            Profile profile = optionalProfile.get();
+            if (request.getFirstName() != null) {
+                profile.setFirst_name(request.getFirstName());
+            }
+            if (request.getLastName() != null) {
+                profile.setLast_name(request.getLastName());
+            }
+            if (request.getEmail() != null) {
+                profile.setEmail(request.getEmail());
+            }
+            if (request.getMobile() != null) {
+                profile.setMobile(request.getMobile());
+            }
+            if (request.getAddress() != null) {
+                profile.setAddress(request.getAddress());
+            }
+            if (request.getState() != null) {
+                profile.setState(request.getState());
+            }
+            if (request.getCity() != null) {
+                profile.setCity(request.getCity());
+            }
+            if (request.getPostalCode() != null) {
+                profile.setPoastal_code(request.getPostalCode());
+            }
+            if (request.getAboutMe() != null) {
+                profile.setAbout_me(request.getAboutMe());
+            }
+            repo.save(profile);
+            return new ProfileResponseDto("Updated profile");
+        } else {
+            return new ProfileResponseDto("Profile not found");
         }
-        return "not successful";
     }
 
-    @Override
-    public ProfileResponseDto deleteProfile(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteProfile'");
+    public Optional<Profile> getByEmail(String email) {
+        return repo.findByEmail(email);
     }
 
 }
