@@ -8,19 +8,25 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 
 import java.io.IOException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.britishenglishcertificate.gowrishankar.dto.request.LoginRequest;
 import com.britishenglishcertificate.gowrishankar.dto.request.RegisterRequest;
+import com.britishenglishcertificate.gowrishankar.dto.response.AllUserDataResponse;
 import com.britishenglishcertificate.gowrishankar.dto.response.LoginResponse;
 import com.britishenglishcertificate.gowrishankar.dto.response.RegisterResponse;
+import com.britishenglishcertificate.gowrishankar.repository.UserRepository;
 import com.britishenglishcertificate.gowrishankar.service.AuthenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +41,9 @@ import lombok.RequiredArgsConstructor;
 public class AuthenticationController {
 
     private final AuthenticationService authService;
+
+    @SuppressWarnings("unused")
+    private final UserRepository userRepository;
 
     @PostMapping(REGISTER)
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
@@ -68,4 +77,30 @@ public class AuthenticationController {
             HttpServletResponse response) throws IOException {
         authService.refreshToken(request, response);
     }
+
+    @GetMapping("/all")
+    public AllUserDataResponse getAllUsers() {
+        return authService.getAllUserData();
+    }
+
+    @DeleteMapping("/user/{email}")
+    public ResponseEntity<?> deleteUser(@RequestParam String email) {
+        try {
+            authService.deleteUserByEmail(email);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user.");
+        }
+    }
+
+    @PutMapping("/user/{email}")
+    public ResponseEntity<?> updateUser(@PathVariable String email, @RequestBody RegisterRequest request) {
+        try {
+            authService.updateUserByEmail(email, request);
+            return ResponseEntity.ok().body("User updated successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update user.");
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.britishenglishcertificate.gowrishankar.dto.request.LoginRequest;
 import com.britishenglishcertificate.gowrishankar.dto.request.RegisterRequest;
+import com.britishenglishcertificate.gowrishankar.dto.response.AllUserDataResponse;
 import com.britishenglishcertificate.gowrishankar.dto.response.LoginResponse;
 import com.britishenglishcertificate.gowrishankar.dto.response.RegisterResponse;
 
@@ -15,5 +16,11 @@ public interface AuthenticationService {
 
     LoginResponse login(LoginRequest request);
 
+    AllUserDataResponse getAllUserData();
+
     void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void deleteUserByEmail(String email);
+
+    void updateUserByEmail(String email, RegisterRequest request);
 }

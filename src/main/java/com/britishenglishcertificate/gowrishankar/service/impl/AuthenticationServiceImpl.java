@@ -5,7 +5,9 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.britishenglishcertificate.gowrishankar.dto.request.LoginRequest;
 import com.britishenglishcertificate.gowrishankar.dto.request.RegisterRequest;
+import com.britishenglishcertificate.gowrishankar.dto.response.AllUserDataResponse;
 import com.britishenglishcertificate.gowrishankar.dto.response.LoginResponse;
 import com.britishenglishcertificate.gowrishankar.dto.response.RegisterResponse;
 import com.britishenglishcertificate.gowrishankar.enumerated.Role;
@@ -122,6 +125,43 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    @Override
+    public AllUserDataResponse getAllUserData() {
+        List<RegisterRequest> users = userRepository.findAll().stream()
+                .map(this::mapToRegisterRequest)
+                .collect(Collectors.toList());
+        return AllUserDataResponse.builder()
+                .users(users)
+                .build();
+    }
+
+    private RegisterRequest mapToRegisterRequest(User user) {
+        return RegisterRequest.builder()
+                .name(user.getName())
+                .mobile(user.getMobile())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .role(user.getRole().toString())
+                .build();
+    }
+
+    @Override
+    public void deleteUserByEmail(String email) {
+        userRepository.deleteByEmail(email);
+    }
+
+    @Override
+    public void updateUserByEmail(String email, RegisterRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        user.setName(request.getName());
+        user.setMobile(request.getMobile());
+        user.setName(request.getName());
+        user.setRole(Role.valueOf(request.getRole().toUpperCase()));
+        // set other fields
+        userRepository.save(user);
     }
 
 }

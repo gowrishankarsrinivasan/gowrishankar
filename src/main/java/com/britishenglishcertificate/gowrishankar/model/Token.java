@@ -1,11 +1,8 @@
 package com.britishenglishcertificate.gowrishankar.model;
-
 import com.britishenglishcertificate.gowrishankar.enumerated.TokenType;
-
 import static com.britishenglishcertificate.gowrishankar.enumerated.TokenType.BEARER;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -19,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -30,18 +26,13 @@ public class Token {
     @Id
     @GeneratedValue(strategy = UUID)
     public String id;
-
     @Column(unique = true)
     public String token;
-
     @Builder.Default
     @Enumerated(STRING)
     public TokenType tokenType = BEARER;
-
     public boolean revoked;
-
     public boolean expired;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     public User user;

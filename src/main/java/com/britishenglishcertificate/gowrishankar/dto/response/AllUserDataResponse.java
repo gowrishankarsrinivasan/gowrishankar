@@ -1,19 +1,17 @@
 package com.britishenglishcertificate.gowrishankar.dto.response;
 
+import com.britishenglishcertificate.gowrishankar.dto.request.RegisterRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseGetResponse {
-
-    private String courseName;
-    private String duration;
-    private String fees;
-    private String examformat;
-    private String noofpapers;
+public class AllUserDataResponse {
+    private List<RegisterRequest> users;
 }

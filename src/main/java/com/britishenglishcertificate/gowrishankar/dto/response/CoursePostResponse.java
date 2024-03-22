@@ -9,11 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseGetResponse {
-
-    private String courseName;
-    private String duration;
-    private String fees;
-    private String examformat;
-    private String noofpapers;
+public class CoursePostResponse {
+    private String message;
 }
