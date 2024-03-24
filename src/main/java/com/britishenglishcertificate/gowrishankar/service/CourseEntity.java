@@ -11,7 +11,7 @@ public interface CourseEntity {
     CoursePostResponse saveCourse(CourseEntityRequest request);
 
     List<CourseGetResponse> getAllCourses();
-    // CourseDeleteResponse deleteCourseByName(String courseName);
-    // CoursePostResponse updateCourse(String courseId, UpdateCourseRequest
-    // request);
+
+    CoursePostResponse deleteCourse(String id);
+
 }

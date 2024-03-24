@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -149,7 +150,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public void deleteUserByEmail(String email) {
-        userRepository.deleteByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            tokenRepository.deleteAll(user.getTokens());
+            userRepository.delete(user);
+        } else {
+            throw new RuntimeException("User not found for email: " + email);
+        }
     }
 
     @Override
@@ -158,7 +166,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
         user.setName(request.getName());
         user.setMobile(request.getMobile());
-        user.setName(request.getName());
+        user.setEmail(email);
         user.setRole(Role.valueOf(request.getRole().toUpperCase()));
         // set other fields
         userRepository.save(user);

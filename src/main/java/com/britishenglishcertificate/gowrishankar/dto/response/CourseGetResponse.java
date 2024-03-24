@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseGetResponse {
-
+    private String id;
     private String courseName;
     private String duration;
     private String fees;

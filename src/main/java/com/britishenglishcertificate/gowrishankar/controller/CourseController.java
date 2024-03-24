@@ -1,9 +1,6 @@
 package com.britishenglishcertificate.gowrishankar.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.britishenglishcertificate.gowrishankar.dto.request.CourseEntityRequest;
 import com.britishenglishcertificate.gowrishankar.dto.request.CourseRequest;
 import com.britishenglishcertificate.gowrishankar.dto.response.CourseGetResponse;
@@ -38,4 +35,10 @@ public class CourseController {
     public List<CourseGetResponse> getAllCourses() {
         return courseService.getAllCourses();
     }
+
+    @DeleteMapping("/delete/course/{id}") // Endpoint for deleting a course
+    public CoursePostResponse deleteCourse(@PathVariable String id) {
+        return courseService.deleteCourse(id);
+    }
+
 }

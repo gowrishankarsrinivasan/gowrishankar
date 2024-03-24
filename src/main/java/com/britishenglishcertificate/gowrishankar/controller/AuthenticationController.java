@@ -10,6 +10,7 @@ import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 import java.io.IOException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(AUTH)
-
+// @PreAuthorize("hasRole('ADMIN')")
 @RequiredArgsConstructor
 
 public class AuthenticationController {
@@ -79,17 +80,19 @@ public class AuthenticationController {
     }
 
     @GetMapping("/all")
+    // @PreAuthorize("hasAuthority('admin:read')")
     public AllUserDataResponse getAllUsers() {
         return authService.getAllUserData();
     }
 
-    @DeleteMapping("/user/{email}")
-    public ResponseEntity<?> deleteUser(@RequestParam String email) {
+    // @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete-user")
+    public ResponseEntity<String> deleteUserByEmail(@RequestParam String email) {
         try {
             authService.deleteUserByEmail(email);
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user.");
+            return new ResponseEntity<>("Failed to delete user: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

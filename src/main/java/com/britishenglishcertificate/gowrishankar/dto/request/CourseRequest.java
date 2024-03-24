@@ -1,7 +1,5 @@
 package com.britishenglishcertificate.gowrishankar.dto.request;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CourseRequest {
-
+    private String id;
     private String courseName;
     private String duration;
     private String fees;
