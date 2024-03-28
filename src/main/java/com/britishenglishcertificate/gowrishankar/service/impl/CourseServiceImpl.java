@@ -10,7 +10,6 @@ import com.britishenglishcertificate.gowrishankar.model.Course;
 import com.britishenglishcertificate.gowrishankar.repository.CourseRepo;
 import com.britishenglishcertificate.gowrishankar.service.CourseEntity;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +19,6 @@ public class CourseServiceImpl implements CourseEntity {
 
     private final CourseRepo courseRepo;
 
-    @SuppressWarnings("null")
     @Override
     public CoursePostResponse saveCourse(CourseEntityRequest request) {
 
